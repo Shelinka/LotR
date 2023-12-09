@@ -1,12 +1,15 @@
-[Unit]
-Description=Discord Bot
+Certainly! Another way to make your Python script run on startup is by using the cron scheduler. Here's how you can set it up:
 
-[Service]
-Type=simple
-ExecStart=/usr/bin/python3 /home/pepa/Desktop/bot.py
-Restart=always
-User=<user>
-Group=<user>
+Open the crontab configuration for editing:
 
-[Install]
-WantedBy=default.target
+bash
+Copy code
+crontab -e
+Add a line to the crontab file to run your Python script on startup. For example:
+
+bash
+Copy code
+@reboot /usr/bin/python3 /path/to/your/bot/script.py
+This line uses the @reboot directive, which means the specified command will be run once at system startup.
+
+Save the file and exit the editor.
