@@ -1,0 +1,12 @@
+[Unit]
+Description=Discord Bot
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/pepa/Desktop/bot.py
+Restart=always
+User=<user>
+Group=<user>
+
+[Install]
+WantedBy=default.target
