@@ -1,32 +1,26 @@
 import discord
+from discord.ext import commands
 
-client = discord.Client()
-token = 'bot_token'
+# Create an instance of the Intents class with all intents enabled
+intents = discord.Intents.all()
 
-@client.event
+# Create a new bot instance with the specified command prefix and intents
+bot = commands.Bot(command_prefix='!', intents=intents)
+
+# Event handler for when the bot is ready
+@bot.event
 async def on_ready():
-    print(f'Logged in as {client.user.name}!')
+    print(f'Logged in as {bot.user.name} ({bot.user.id})')
+    print('------')
 
-@client.event
+# Event handler for when a message is deleted
+@bot.event
 async def on_message_delete(message):
-    # Check if the message was in a channel with a mentionable role
-    channel = message.channel
-    guild = channel.guild
-    mentionable_roles = [role for role in guild.roles if role.mentionable]
-    if not mentionable_roles or not isinstance(channel, discord.TextChannel):
-        return
+    # Check if the deleted message matches the specified content
+    if message.content.lower().strip() == "hey, please do not delete your messages.":
+        # Private message the user who deleted the message
+        user = message.author
+        await user.send("You deleted the message: 'Hey, please do not delete your messages.'")
 
-    # Check if any mentionable role has permissions to mention everyone
-    roles_with_mention_permission = [role for role in mentionable_roles if channel.permissions_for(role).mention_everyone]
-    if not roles_with_mention_permission:
-        return
-
-    # Send a warning message to the user who deleted the message
-    author = message.author
-    warning_message = f'Hey {author.mention}, don\'t delete your pings!'
-    try:
-        await author.send(warning_message)
-    except discord.errors.Forbidden as err:
-        print(f'Failed to send warning message to {author.name}: {err}')
-
-client.run(token)
+# Run the bot with the token
+bot.run('YOUR_BOT_TOKEN')
