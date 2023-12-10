@@ -10,16 +10,21 @@ bot = comamnds.Bot(command_prefix="!", intents = discord.Intents.all())
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user.name} ({bot.user.id})')
+    try:
+        synced = await bot.tree.sync()
+        print(f"Synced {len(synced)} command(s)")
+    except Exception as e:
+        print(e)
+
+
+# Define a slash command for /ping
+@client.command()
+async def ping(ctx):
+     await ctx.send(f'Pong! In {round(client.latency * 1000)}ms')
 
 @bot.event
 async def on_message_delete(message):
     user = message.author
     await user.send(f"Heya! Please do not delte your messages in LFG channels. In case you delisted your group etc. you can always use the Edit function to let others know that your group is full. Thank you <3")
-
-# Define a slash command for /ping
-@bot.tree.command(name="ping", description="Get the current ping of the bot.")
-async def ping(ctx):
-    latency = bot.latency * 1000  # Convert to milliseconds
-    await ctx.send(f'Pong! Current ping is {latency:.2f} ms.')
 
 bot.run('YOUR_BOT_TOKEN')
