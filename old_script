@@ -18,7 +18,7 @@ async def on_ready():
 async def on_message_delete(message):
     # Private message the user who deleted the message
     user = message.author
-    await user.send(f"You deleted a message: '{message.content}'")
+    await user.send(f"Heya! Please do not delete your messages in LFG channels. In case you delisted your group etc. you can always use the Edit function to let others know that your group is full. Thank you <3")
 
 # Run the bot with the token
 bot.run('YOUR_BOT_TOKEN')
